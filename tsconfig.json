@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "ES2022",
     "lib": ["ES2022"],
+    "ignoreDeprecations": "6.0",
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -26,6 +27,6 @@
       "@/types/*": ["./packages/types/*"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
+  "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "apps/core_microservice/src/users/infrastructure/database/entities/post.orm-entityts"],
   "exclude": ["node_modules", "dist", "build", ".next"]
 }
