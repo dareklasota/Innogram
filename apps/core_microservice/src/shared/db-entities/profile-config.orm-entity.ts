@@ -6,8 +6,10 @@ import {
   Column, 
   ManyToOne,
   JoinColumn,
-  type Relation
+  type Relation,
+  OneToMany
 } from 'typeorm';
+import { ProfileToProfileConfigurationEntity } from './profile-to-profile-configuration.orm-entity.js';
 
 @Entity('profile_configurations', {
   schema: DbSchema.MAIN
@@ -44,6 +46,6 @@ export class ProfileConfigOrmEntity {
   @JoinColumn({ name: 'updated_by' })
   updatedBy: Relation<UserOrmEntity>;
 
-  @Column({ name: 'updated_by', nullable: true })
-  updatedById: string;
+  @OneToMany(() => ProfileToProfileConfigurationEntity, profConfig => profConfig.profileConfiguration)
+  profileConfigurations: Relation<ProfileToProfileConfigurationEntity[]>;
 }

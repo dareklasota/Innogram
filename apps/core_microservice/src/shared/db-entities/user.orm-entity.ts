@@ -6,6 +6,8 @@ import { ChatOrmEntity } from './chat.orm-entity.js';
 import { PostOrmEntity } from './post.orm-entity.js';
 import { MessageOrmEntity } from './message.orm-entity.js';
 import { ProfileConfigOrmEntity } from './profile-config.orm-entity.js';
+import { NotificationOrmEntity } from './notification.orm-entity.js';
+import { AuditLogOrmEntity } from './audit-log.orm-entity.js';
 import { 
   Column, 
   Entity,
@@ -29,6 +31,30 @@ export class UserOrmEntity {
     default: UserRole.USER
   })
   role: UserRole;
+
+  @Column({
+    name: 'created_at',
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP'
+  })
+  createdAt: Date;
+
+  @OneToOne(() => UserOrmEntity)
+  @JoinColumn({ name: 'created_by' })
+  createdBy: Relation<UserOrmEntity>;
+
+  @Column({ name: 'updated_at', type: 'timestamptz' })
+  updatedAt: Date;
+
+  @OneToOne(() => UserOrmEntity)
+  @JoinColumn({ name: 'updated_by' })
+  updatedBy: Relation<UserOrmEntity>
+
+  @OneToMany(() => PostOrmEntity, post => post.createdBy)
+  postsCreated: Relation<PostOrmEntity[]>;
+
+  @OneToMany(() => PostOrmEntity, post => post.updatedBy)
+  postsUpdated: Relation<PostOrmEntity[]>;
 
   @OneToMany(() => CommentOrmEntity, comment => comment.createdBy)
   commentsCreated: Relation<CommentOrmEntity[]>;
@@ -54,38 +80,24 @@ export class UserOrmEntity {
   @OneToMany(() => MessageOrmEntity, message => message.updatedBy)
   messagesUpdated: Relation<MessageOrmEntity[]>;
 
-  @OneToMany(() => PostOrmEntity, post => post.createdBy)
-  postsCreated: Relation<PostOrmEntity[]>;
-
-  @OneToMany(() => PostOrmEntity, post => post.updatedBy)
-  postsUpdated: Relation<PostOrmEntity[]>;
-
   @OneToMany(() => ProfileConfigOrmEntity, config => config.createdBy)
   profileConfigurationsCreated: Relation<ProfileConfigOrmEntity>;
 
   @OneToMany(() => ProfileConfigOrmEntity, config => config.updatedBy)
   profileConfigurationsUpdated: Relation<ProfileConfigOrmEntity[]>;
 
-  @Column({
-    name: 'created_at',
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP'
-  })
-  createdAt: Date;
+  @OneToMany(() => NotificationOrmEntity, notif => notif.createdBy)
+  notificationsCreated: Relation<NotificationOrmEntity[]>;
 
-  @OneToOne(() => UserOrmEntity)
-  @JoinColumn({ name: 'created_by' })
-  createdBy: Relation<UserOrmEntity>;
+  @OneToMany(() => NotificationOrmEntity, notif => notif.updatedBy)
+  notificationsUpdated: Relation<NotificationOrmEntity[]>;
 
-  @Column({
-    name: 'updated_at',
-    type: 'timestamptz'
-  })
-  updatedAt: Date;
+  @OneToMany(() => AuditLogOrmEntity, log => log.createdBy)
+  auditLogsCreated: Relation<NotificationOrmEntity[]>;
 
-  @OneToOne(() => UserOrmEntity)
-  @JoinColumn({
-    name: 'updated_by'
-  })
-  updatedBy: Relation<UserOrmEntity>
+  @OneToMany(() => AuditLogOrmEntity, log => log.updatedBy)
+  auditLogsUpdated: Relation<NotificationOrmEntity[]>;
+
+  @OneToMany(() => AuditLogOrmEntity, log => log.user)
+  auditLogs: Relation<AuditLogOrmEntity[]>;
 } 

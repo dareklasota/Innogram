@@ -12,6 +12,11 @@ import {
   PrimaryColumn,
   type Relation
 } from 'typeorm';
+import { ProfileFollowOrmEntity } from './profile-follow.orm-entity.js';
+import { ChatParticipantOrmEntity } from './chat-participant.orm-entity.js';
+import { PostLikeOrmEntity } from './post-like.orm-entity.js';
+import { CommentLikeOrmEntity } from './comment-like.orm-entity.js';
+import { ProfileToProfileConfigurationEntity } from './profile-to-profile-configuration.orm-entity.js';
 
 @Entity('profiles', {
   schema: DbSchema.MAIN
@@ -26,7 +31,7 @@ export class ProfileOrmEntity {
   @JoinColumn({ name: 'user_id' })
   user: Relation<UserOrmEntity>;
 
-  @OneToMany(() => PostOrmEntity, (post) => post.profile)
+  @OneToMany(() => PostOrmEntity, post => post.profile)
   posts: Relation<PostOrmEntity[]>;
 
   @OneToMany(() => CommentOrmEntity, comment => comment.profile)
@@ -35,39 +40,25 @@ export class ProfileOrmEntity {
   @OneToMany(() => MessageOrmEntity, message => message.createdBy)
   messages: Relation<MessageOrmEntity[]>;
 
-  @Column({
-    length: 50,
-    unique: true
-  })
+  @OneToMany(() => ChatParticipantOrmEntity, chatPart => chatPart.profile)
+  chatParticipants: Relation<ChatParticipantOrmEntity[]>;
+
+  @Column({ length: 50, unique: true })
   username: string;
 
-  @Column({
-    name: 'display_name',
-    length: 100
-  })
+  @Column({ name: 'display_name', length: 100 })
   displayName: string;
 
   @Column('date')
   birthday: Date;
 
-  @Column({
-    type: 'text',
-    nullable: true
-  })
+  @Column({ type: 'text', nullable: true })
   bio: string | null;
 
-  @Column({
-    type: 'varchar',
-    name: 'avatar_url',
-    length: 500,
-    nullable: true,
-  })
+  @Column({ type: 'varchar', name: 'avatar_url', length: 500, nullable: true })
   avatarUrl: string | null;
 
-  @Column({
-    name: 'is_public',
-    default: true
-  })
+  @Column({ name: 'is_public', default: true })
   isPublic: boolean;
 
   @Column({
@@ -78,23 +69,31 @@ export class ProfileOrmEntity {
   createdAt: Date;
 
   @OneToOne(() => UserOrmEntity)
-  @JoinColumn({
-    name: 'created_by',
-  })
+  @JoinColumn({ name: 'created_by' })
   createdBy: Relation<UserOrmEntity>;
 
-  @Column({
-    type: 'timestamptz',
-    name: 'updated_at'
-  })
+  @Column({ type: 'timestamptz', name: 'updated_at' })
   updatedAt: Date;
 
   @OneToOne(() => UserOrmEntity)
-  @JoinColumn({
-    name: 'updatedBy'
-  })
+  @JoinColumn({ name: 'updatedBy' })
   updatedBy: Relation<UserOrmEntity>;
 
   @Column({ default: false })
   deleted: boolean;
+
+  @OneToMany(() => ProfileFollowOrmEntity, follow => follow.followerProfile)
+  following: Relation<ProfileFollowOrmEntity[]>;
+
+  @OneToMany(() => ProfileFollowOrmEntity, follow => follow.followedProfile)
+  followers: Relation<ProfileFollowOrmEntity[]>;
+
+  @OneToMany(() => PostLikeOrmEntity, postLike => postLike.profile)
+  postLikes: Relation<PostLikeOrmEntity[]>;
+
+  @OneToMany(() => CommentLikeOrmEntity, commentLike => commentLike.profile)
+  commentLikes: Relation<CommentLikeOrmEntity[]>;
+
+  @OneToMany(() => ProfileToProfileConfigurationEntity, profCofnig => profCofnig.profile)
+  profileConfigurations: Relation<ProfileToProfileConfigurationEntity[]>;
 }

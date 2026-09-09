@@ -1,4 +1,5 @@
 import { DbSchema } from '../enums/db-schema.enum.js';
+import { CommentLikeOrmEntity } from './comment-like.orm-entity.js';
 import { PostOrmEntity } from './post.orm-entity.js';
 import { ProfileOrmEntity } from './profile.orm-entity.js';
 import { UserOrmEntity } from './user.orm-entity.js';
@@ -31,14 +32,8 @@ export class CommentOrmEntity {
   @JoinColumn({ name: 'parent_comment_id' })
   parentComment: Relation<CommentOrmEntity>;
 
-  @Column({ 
-    name: 'parent_comment_id',
-    nullable: true 
-  })
+  @Column({ name: 'parent_comment_id', nullable: true })
   parentCommentId: string | null;
-
-  @OneToMany(() => CommentOrmEntity, comment => comment.parentComment)
-  children: Relation<CommentOrmEntity[]>;
 
   @Column('text')
   content: string;
@@ -54,13 +49,16 @@ export class CommentOrmEntity {
   @JoinColumn({ name: 'created_by' })
   createdBy: Relation<UserOrmEntity>;
 
-  @Column({
-    type: 'timestamptz',
-    name: 'updated_at'
-  })
+  @Column({ type: 'timestamptz', name: 'updated_at' })
   updatedAt: Date;
 
   @ManyToOne(() => UserOrmEntity, user => user.commentsUpdated)
   @JoinColumn({ name: 'updated_by' })
   updatedBy: Relation<UserOrmEntity>;
+
+  @OneToMany(() => CommentOrmEntity, comment => comment.parentComment)
+  children: Relation<CommentOrmEntity[]>;
+
+  @OneToMany(() => CommentLikeOrmEntity, commentLike => commentLike.comment)
+  commentLikes: Relation<CommentLikeOrmEntity[]>;
 }

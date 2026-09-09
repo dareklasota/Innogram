@@ -11,6 +11,7 @@ import {
   type Relation,
   OneToMany
 } from 'typeorm';
+import { MessageAssetOrmEntity } from './message-asset.orm-entity.js';
 
 @Entity('messages', {
   schema: DbSchema.MAIN
@@ -27,9 +28,6 @@ export class MessageOrmEntity {
   @JoinColumn({ name: 'profile_id' })
   profile: Relation<ProfileOrmEntity>;
 
-  @Column({ type: 'text', nullable: true })
-  description: string | null;
-
   @Column('text')
   content: string;
 
@@ -40,7 +38,7 @@ export class MessageOrmEntity {
   @ManyToOne(() => MessageOrmEntity, message => message.replyToMessage)
   replies: Relation<MessageOrmEntity[]>;
 
-  @Column({ type: 'boolean', default: false })
+  @Column({ default: false })
   isEdited: boolean;
 
   @Column({
@@ -54,10 +52,7 @@ export class MessageOrmEntity {
   @JoinColumn({ name: 'created_by '})
   createdBy: Relation<UserOrmEntity>;
 
-  @Column({
-    type: 'timestamptz',
-    name: 'updated_at'
-  })
+  @Column({ type: 'timestamptz', name: 'updated_at' })
   updatedAt: Date;
 
   @ManyToOne(() => UserOrmEntity, user => user.messagesUpdated)
@@ -69,4 +64,7 @@ export class MessageOrmEntity {
 
   @Column({ default: false })
   deleted: boolean;
+
+  @OneToMany(() => MessageAssetOrmEntity, messageAsset => messageAsset.message)
+  messageAssets: Relation<MessageAssetOrmEntity[]>;
 }

@@ -11,6 +11,8 @@ import {
   PrimaryColumn,
   type Relation
 } from 'typeorm';
+import { PostAssetOrmEntity } from './post-asset.orm-entity.js';
+import { PostLikeOrmEntity } from './post-like.orm-entity.js';
 
 @Entity('posts', {
   schema: DbSchema.MAIN
@@ -19,12 +21,9 @@ export class PostOrmEntity {
   @PrimaryColumn({ length: 36 })
   id: string;
 
-  @ManyToOne(() => ProfileOrmEntity, (profile) => profile.posts)
+  @ManyToOne(() => ProfileOrmEntity, profile => profile.posts)
   @JoinColumn({ name: 'profile_id' })
   profile: Relation<ProfileOrmEntity>;
-
-  @OneToMany(() => CommentOrmEntity, comment => comment.post)
-  comments: Relation<CommentOrmEntity[]>;
 
   @Column('text')
   content: string;
@@ -43,12 +42,18 @@ export class PostOrmEntity {
   @JoinColumn({ name: 'created_by' })
   createdBy: Relation<UserOrmEntity>;
 
-  @Column({
-    type: 'timestamptz',
-    name: 'updated_at'
-  })
+  @Column({ type: 'timestamptz', name: 'updated_at' })
   updatedAt: Date;
 
   @ManyToOne(() => UserOrmEntity, user => user.postsUpdated)
   updatedBy: Relation<UserOrmEntity>;
+
+  @OneToMany(() => CommentOrmEntity, comment => comment.post)
+  comments: Relation<CommentOrmEntity[]>;
+
+  @OneToMany(() => PostAssetOrmEntity, pa => pa.post)
+  postAssets: Relation<PostAssetOrmEntity[]>;
+
+  @OneToMany(() => PostLikeOrmEntity, postLike => postLike.post)
+  postLikes: Relation<PostLikeOrmEntity[]>;
 }

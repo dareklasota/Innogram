@@ -11,6 +11,7 @@ import {
   OneToMany,
   type Relation
 } from 'typeorm';
+import { ChatParticipantOrmEntity } from './chat-participant.orm-entity.js';
 
 @Entity('chats', {
   schema: DbSchema.MAIN
@@ -21,6 +22,9 @@ export class ChatOrmEntity {
 
   @OneToMany(() => MessageOrmEntity, message => message.chat)
   messages: Relation<MessageOrmEntity[]>;
+
+  @OneToMany(() => ChatParticipantOrmEntity, chatPart => chatPart.chat)
+  chatParticipants: Relation<ChatParticipantOrmEntity[]>;
   
   @Column({ name: 'file_name', length: 100 })
   name: string;
@@ -46,10 +50,7 @@ export class ChatOrmEntity {
   @JoinColumn({ name: 'created_by '})
   createdBy: Relation<UserOrmEntity>;
 
-  @Column({
-    type: 'timestamptz',
-    name: 'updated_at'
-  })
+  @Column({ type: 'timestamptz', name: 'updated_at' })
   updatedAt: Date;
 
   @ManyToOne(() => UserOrmEntity, user => user.chatsUpdated)

@@ -18,21 +18,13 @@ export class AccountOrmEntity {
   id: string;
 
   @OneToOne(() => UserOrmEntity)
-  @JoinColumn({
-    name: 'user_id'
-  })
+  @JoinColumn({ name: 'user_id' })
   user: Relation<UserOrmEntity>
 
-  @Column({
-    length: 255,
-    unique: true
-  })
+  @Column({ length: 255, unique: true })
   email: string;
 
-  @Column({
-    name: 'password_hash',
-    length: 255
-  })
+  @Column({ name: 'password_hash', length: 255 })
   passwordHash: string;
 
   @Column({
@@ -64,20 +56,13 @@ export class AccountOrmEntity {
   createdAt: Date;
 
   @OneToOne(() => UserOrmEntity)
-  @JoinColumn({
-    name: 'created_by'
-  })
+  @JoinColumn({ name: 'created_by' })
   createdBy: Relation<UserOrmEntity>
 
-  @Column({
-    type: 'timestamptz',
-    name: 'updated_at'
-  })
+  @Column({ type: 'timestamptz', name: 'updated_at' })
   updatedAt: Date;
 
   @OneToOne(() => UserOrmEntity)
-  @JoinColumn({
-    name: 'updated_by'
-  })
+  @JoinColumn({ name: 'updated_by' })
   updatedBy: Relation<UserOrmEntity>;
 }
