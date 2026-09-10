@@ -1,14 +1,16 @@
 import 'dotenv/config';
 import { DataSource } from 'typeorm';
-// import { AccountOrmEntity } from './db-entities/account.orm-entity.js';
-// import { AssetOrmEntity } from './db-entities/asset.orm-entity.js';
-// import { ChatOrmEntity } from './db-entities/chat.orm-entity.js';
-// import { CommentOrmEntity } from './db-entities/comment.orm-entity.js';
-// import { MessageOrmEntity } from './db-entities/message.orm-entity.js';
-// import { PostOrmEntity } from './db-entities/post.orm-entity.js';
-// import { ProfileConfigOrmEntity } from './db-entities/profile-config.orm-entity.js';
-// import { ProfileOrmEntity } from './db-entities/profile.orm-entity.js';
-// import { UserOrmEntity } from './db-entities/user.orm-entity.js';
+import { AccountOrmEntity } from './db-entities/account.orm-entity.js';
+import { AssetOrmEntity } from './db-entities/asset.orm-entity.js';
+import { ChatOrmEntity } from './db-entities/chat.orm-entity.js';
+import { CommentOrmEntity } from './db-entities/comment.orm-entity.js';
+import { MessageOrmEntity } from './db-entities/message.orm-entity.js';
+import { NotificationOrmEntity } from './db-entities/notification.orm-entity.js';
+import { PostOrmEntity } from './db-entities/post.orm-entity.js';
+import { ProfileConfigOrmEntity } from './db-entities/profile-config.orm-entity.js';
+import { ProfileOrmEntity } from './db-entities/profile.orm-entity.js';
+import { UserOrmEntity } from './db-entities/user.orm-entity.js';
+import { AuditLogOrmEntity } from './db-entities/audit-log.orm-entity.js';
 
 export const dataSource = new DataSource({
   type: 'postgres',
@@ -19,15 +21,17 @@ export const dataSource = new DataSource({
   database: process.env.POSTGRES_DB,
   synchronize: false,
   entities: [
-    // AccountOrmEntity,
-    // AssetOrmEntity,
-    // ChatOrmEntity,
-    // CommentOrmEntity,
-    // MessageOrmEntity,
-    // PostOrmEntity,
-    // ProfileConfigOrmEntity,
-    // ProfileOrmEntity,
-    // UserOrmEntity
+    UserOrmEntity,
+    AccountOrmEntity,
+    ProfileOrmEntity,
+    PostOrmEntity,
+    CommentOrmEntity,
+    AssetOrmEntity,
+    ChatOrmEntity,
+    MessageOrmEntity,
+    ProfileConfigOrmEntity,
+    NotificationOrmEntity,
+    AuditLogOrmEntity
   ],
   migrations: ['./src/shared/migrations/*{.ts,.js}']
 });

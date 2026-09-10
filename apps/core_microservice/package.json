@@ -11,6 +11,8 @@
     "build": "nest build",
     "deploy": "nest deploy",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "db:migrate": "typeorm-ts-node-esm migration:run -d src/shared/data-source.ts",
+    "db:generate": "typeorm-ts-node-esm migration:generate -d src/shared/data-source.ts src/shared/migrations/initial",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
