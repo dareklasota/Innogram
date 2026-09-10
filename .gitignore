@@ -95,3 +95,4 @@ temp/
 .dockerignore
 
 init-project.sh
+*.tsbuildinfo
