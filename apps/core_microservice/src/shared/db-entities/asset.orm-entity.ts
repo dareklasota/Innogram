@@ -1,6 +1,8 @@
-import { UserOrmEntity } from "./user.orm-entity.js";
-import { DbSchema } from "../enums/db-schema.enum.js";
-import { Entity, PrimaryColumn, Column, ManyToOne, JoinColumn, type Relation } from "typeorm";
+import { UserOrmEntity } from './user.orm-entity.js';
+import { DbSchema } from '../enums/db-schema.enum.js';
+import { PostAssetOrmEntity } from './post-asset.orm-entity.js';
+import { MessageAssetOrmEntity } from './message-asset.orm-entity.js';
+import { Entity, PrimaryColumn, Column, ManyToOne, JoinColumn, type Relation, OneToMany } from 'typeorm';
 
 @Entity('assets', {
   schema: DbSchema.MAIN
@@ -35,13 +37,16 @@ export class AssetOrmEntity {
   @JoinColumn({ name: 'created_by' })
   createdBy: Relation<UserOrmEntity>;
 
-  @Column({
-    type: 'timestamptz',
-    name: 'updated_at'
-  })
+  @Column({ type: 'timestamptz', name: 'updated_at' })
   updatedAt: Date;
 
   @ManyToOne(() => UserOrmEntity, user => user.assetsUpdated)
   @JoinColumn({ name: 'updated_by' })
   updatedBy: Relation<UserOrmEntity>;
+
+  @OneToMany(() => PostAssetOrmEntity, pa => pa.asset)
+  postAssets: Relation<PostAssetOrmEntity[]>;
+
+  @OneToMany(() => MessageAssetOrmEntity, messageAsset => messageAsset.asset)
+  messageAssets: Relation<MessageAssetOrmEntity[]>;
 }

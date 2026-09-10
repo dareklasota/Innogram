@@ -11,6 +11,13 @@ import { ProfileConfigOrmEntity } from './db-entities/profile-config.orm-entity.
 import { ProfileOrmEntity } from './db-entities/profile.orm-entity.js';
 import { UserOrmEntity } from './db-entities/user.orm-entity.js';
 import { AuditLogOrmEntity } from './db-entities/audit-log.orm-entity.js';
+import { ChatParticipantOrmEntity } from './db-entities/chat-participant.orm-entity.js';
+import { CommentLikeOrmEntity } from './db-entities/comment-like.orm-entity.js';
+import { MessageAssetOrmEntity } from './db-entities/message-asset.orm-entity.js';
+import { PostAssetOrmEntity } from './db-entities/post-asset.orm-entity.js';
+import { PostLikeOrmEntity } from './db-entities/post-like.orm-entity.js';
+import { ProfileFollowOrmEntity } from './db-entities/profile-follow.orm-entity.js';
+import { ProfileToProfileConfigurationEntity } from './db-entities/profile-to-profile-configuration.orm-entity.js';
 
 export const dataSource = new DataSource({
   type: 'postgres',
@@ -31,7 +38,14 @@ export const dataSource = new DataSource({
     MessageOrmEntity,
     ProfileConfigOrmEntity,
     NotificationOrmEntity,
-    AuditLogOrmEntity
+    AuditLogOrmEntity,
+    PostAssetOrmEntity,
+    ProfileFollowOrmEntity,
+    ChatParticipantOrmEntity,
+    MessageAssetOrmEntity,
+    PostLikeOrmEntity,
+    CommentLikeOrmEntity,
+    ProfileToProfileConfigurationEntity
   ],
   migrations: ['./src/shared/migrations/*{.ts,.js}']
 });

@@ -12,6 +12,13 @@ import { ProfileConfigOrmEntity } from './shared/db-entities/profile-config.orm-
 import { ProfileOrmEntity } from './shared/db-entities/profile.orm-entity.js';
 import { UserOrmEntity } from './shared/db-entities/user.orm-entity.js';
 import { AuditLogOrmEntity } from './shared/db-entities/audit-log.orm-entity.js';
+import { ChatParticipantOrmEntity } from './shared/db-entities/chat-participant.orm-entity.js';
+import { CommentLikeOrmEntity } from './shared/db-entities/comment-like.orm-entity.js';
+import { MessageAssetOrmEntity } from './shared/db-entities/message-asset.orm-entity.js';
+import { PostAssetOrmEntity } from './shared/db-entities/post-asset.orm-entity.js';
+import { PostLikeOrmEntity } from './shared/db-entities/post-like.orm-entity.js';
+import { ProfileFollowOrmEntity } from './shared/db-entities/profile-follow.orm-entity.js';
+import { ProfileToProfileConfigurationEntity } from './shared/db-entities/profile-to-profile-configuration.orm-entity.js';
 
 @Module({
   imports: [
@@ -38,7 +45,15 @@ import { AuditLogOrmEntity } from './shared/db-entities/audit-log.orm-entity.js'
         MessageOrmEntity,
         ProfileConfigOrmEntity,
         NotificationOrmEntity,
-        AuditLogOrmEntity
+        AuditLogOrmEntity,
+        AuditLogOrmEntity,
+        PostAssetOrmEntity,
+        ProfileFollowOrmEntity,
+        ChatParticipantOrmEntity,
+        MessageAssetOrmEntity,
+        PostLikeOrmEntity,
+        CommentLikeOrmEntity,
+        ProfileToProfileConfigurationEntity
       ],
       migrations: ['./apps/core_microservice/src/shared/migrations/*{.ts,.js}'],
       synchronize: false
