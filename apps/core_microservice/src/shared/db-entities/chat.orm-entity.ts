@@ -2,6 +2,7 @@ import { UserOrmEntity } from './user.orm-entity.js';
 import { DbSchema } from '../enums/db-schema.enum.js';
 import { ChatType } from '../enums/chat-type.enum.js';
 import { MessageOrmEntity } from './message.orm-entity.js';
+import { ChatParticipantOrmEntity } from './chat-participant.orm-entity.js';
 import { 
   Entity,
   PrimaryColumn,
@@ -21,6 +22,9 @@ export class ChatOrmEntity {
 
   @OneToMany(() => MessageOrmEntity, message => message.chat)
   messages: Relation<MessageOrmEntity[]>;
+
+  @OneToMany(() => ChatParticipantOrmEntity, chatPart => chatPart.chat)
+  chatParticipants: Relation<ChatParticipantOrmEntity[]>;
   
   @Column({ name: 'file_name', length: 100 })
   name: string;
@@ -46,10 +50,7 @@ export class ChatOrmEntity {
   @JoinColumn({ name: 'created_by '})
   createdBy: Relation<UserOrmEntity>;
 
-  @Column({
-    type: 'timestamptz',
-    name: 'updated_at'
-  })
+  @Column({ type: 'timestamptz', name: 'updated_at' })
   updatedAt: Date;
 
   @ManyToOne(() => UserOrmEntity, user => user.chatsUpdated)

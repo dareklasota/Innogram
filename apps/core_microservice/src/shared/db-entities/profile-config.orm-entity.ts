@@ -1,12 +1,14 @@
 import { UserOrmEntity } from './user.orm-entity.js';
 import { DbSchema } from '../enums/db-schema.enum.js';
+import { ProfileToProfileConfigurationEntity } from './profile-to-profile-configuration.orm-entity.js';
 import { 
   Entity, 
   PrimaryColumn, 
   Column, 
   ManyToOne,
   JoinColumn,
-  type Relation
+  type Relation,
+  OneToMany
 } from 'typeorm';
 
 @Entity('profile_configurations', {
@@ -44,6 +46,6 @@ export class ProfileConfigOrmEntity {
   @JoinColumn({ name: 'updated_by' })
   updatedBy: Relation<UserOrmEntity>;
 
-  @Column({ name: 'updated_by', nullable: true })
-  updatedById: string;
+  @OneToMany(() => ProfileToProfileConfigurationEntity, profConfig => profConfig.profileConfiguration)
+  profileConfigurations: Relation<ProfileToProfileConfigurationEntity[]>;
 }
