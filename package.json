@@ -17,7 +17,8 @@
     "clean": "turbo run clean",
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
-    "db:migrate": "turbo run db:migrate",
+    "db:migrate": "dotenv -e .env -- turbo run db:migrate",
+    "db:generate": "dotenv -e .env -- turbo run db:generate",
     "db:seed": "turbo run db:seed"
   },
   "devDependencies": {
